@@ -197,7 +197,7 @@
     }
     .car-meta-item { text-align: center; }
     .car-meta-val { font-weight: 700; color: var(--gold); font-size: 15px; }
-    .car-meta-key { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .car-meta-key { font-size: 11px; color: var(--text-muted); }
     .car-price-row {
       display: flex; align-items: center; justify-content: space-between;
       margin-top: 1.5rem; padding: 1rem 1.2rem; border-radius: 12px;
@@ -693,6 +693,7 @@
       .hamburger { display: flex; }
       section { padding: 4rem 1.25rem; }
       .hero { padding: 6rem 1.25rem 3rem; }
+      .hero-visual { display: none; }  /* <-- HERO CARD HIDDEN ON MOBILE */
       .hero-stats { gap: 1.5rem; }
       .fleet-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
       .form-row { grid-template-columns: 1fr; }
@@ -711,7 +712,7 @@
 </a>
 
 <!-- Navbar -->
-<nav id="navbar">
+<<nav id="navbar">
   <a class="nav-logo" href="#home">
     <div class="nav-logo-icon">MR</div>
     <div class="nav-logo-text">
@@ -1069,7 +1070,7 @@
 
 
 <!-- ENHANCED FOOTER -->
-<footer>
+<<footer>
   <div class="footer-inner">
     <div class="footer-grid">
       <!-- Brand Column -->
@@ -1175,9 +1176,7 @@
     { type:'car',    img:'img/8.jpeg', name:'Tata Tiago', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'₹3,000', period:'/ day' },
     { type:'car',    img:'https://imgs.search.brave.com/uNa3la8ki3ahdufgiFze3UmFGI6nWkQ-MqI5Xa6HW8g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hdmdt/b3RvcnMuY28uaW4v/d3AtY29udGVudC91/cGxvYWRzLzIwMjIv/MDMvUGVhcmwtQXJj/dGljLVdoaXRlLXdp/dGgtUGVhcmwtTWlk/bmlnaHQtQmxhY2st/Um9vZi5wbmc', name:'Swift (VXI)', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'₹3,500', period:'/ day' },
     { type:'car',    img:'img/22.jpeg', name:'Maruti Fronx', cat:'Compact SUV · AC', features:['5 Seats','Auto','AC'], price:'₹4,000', period:'/ day' },
-    { type:'suv',    img:'https://imgs.search.brave.com/JBSIkgaXEig8g1Ut1UKegAXcdSUeyvPGt1y9Vf8ug-g/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LWN0LmFlcGxjZG4u/Y29tLzEwNTZ4NjYw/L24vY3cvZWMvMTMx/MTc5L2JvbGVyby1l/eHRlcmlvci1sZWZ0/LWZyb250LXRocmVl/LXF1YXJ0ZXIuanBl/Zz9pc2lnPTAmcT04/MA', name:'Mahindra Bolero', cat:'SUV · 4WD', features:['7 Seats','Manual','Hill Ready'], price:'₹3,500', period:'/ day' },
-    { type:'suv',    img:'https://imgs.search.brave.com/6aVjA4HlbLajbDEjK48kCPaC0PZw03zDsbM7hUHUpCw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWdk/LWN0LmFlcGxjZG4u/Y29tLzY2NHg0MTUv/bi9jdy9lYy8xNDA4/MDkvaW5ub3ZhLWNy/eXN0YS1leHRlcmlv/ci1yaWdodC1mcm9u/dC10aHJlZS1xdWFy/dGVyLTMucG5nP2lz/aWc9MCZxPTgw', name:'Toyota Innova Crysta', cat:'MUV · Premium', features:['7 Seats','Manual','AC'], price:'₹2,000', period:'/ day' },
-    { type:'suv',    img:'https://imgs.search.brave.com/j4Tnb8NSWtxvSMo_NWiqOju46PiNq7k-w-vInp8CU9I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/czMuYXV0b2Nhcmlu/ZGlhLmNvbS9sZWdh/Y3kvY2RuaS9HYWxs/ZXJpZXMvMjAxNTA4/MjEwMjI3MjRfMTE4/NzM0ODVfMTAzMzYw/ODE3OTk4MjUyM182/MjM5ODcyOTk5MDEz/ODY4NzQ4X24uanBn/P3c9NzI4JnE9NzU', name:'Maruti Ertiga', cat:'MUV · Family', features:['7 Seats','Manual','AC'], price:'₹1,200', period:'/ day' },
+    
     { type:'suv',    img:'img/4.jpeg', name:'Mahindra Scorpio N', cat:'SUV · 4WD · Premium', features:['7 Seats','Manual','4WD'], price:'₹6,000', period:'/ day' },
     { type:'car',    img:'https://imgs.search.brave.com/XpKccBBj6PCKRdcKYDvT7dFJWmAuC0Jwj1qs7FMPphg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aG9uZGFjYXJpbmRp/YS5jb20vX25leHQv/aW1hZ2U_dXJsPWh0/dHBzOi8vd3d3Lmhv/bmRhY2FyaW5kaWEu/Y29tL3dlYi1kYXRh/L3Rlc3RpbW9uaWFs/cy8yNGQxMTZiMS1k/ODFjLTQ5N2EtOTRi/ZC03ZmVjMmNjNTUx/YTEuanBlZyZ3PTM4/NDAmcT03NQ', name:'Honda City', cat:'Sedan · AC', features:['5 Seats','Auto','AC'], price:'₹1,200', period:'/ day' },
     { type:'scooty', img:'img/7.jpeg', name:'Avenis 125', cat:'Scooter · Petrol', features:['Petrol','1 Seat'], price:'₹700', period:'/ day' },
