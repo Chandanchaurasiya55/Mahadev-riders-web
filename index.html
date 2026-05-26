@@ -1243,24 +1243,358 @@
   </div>
 </section>
 
-<!-- PRICING -->
+
 <!-- ABOUT US -->
-<section id="about" style="background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);">
-  <div class="section-inner">
-    <div class="section-header reveal" style="text-align:center;">
-      <div class="section-badge" style="justify-content:center;">About Us</div>
-      <h2 class="section-title">Meet The Owner</h2>
-      <p class="section-desc" style="margin: 0 auto 1.5rem;">Family-run rental service dedicated to clean vehicles, transparent pricing and helpful support for every trip.</p>
-    </div>
-    <div style="display:flex; gap:2rem; align-items:center; justify-content:center; flex-wrap:wrap;">
-      <img src="img/owner.jpeg" alt="Owner" style="width:140px; height:140px; object-fit:cover; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,0.08);" />
-      <div style="max-width:700px; text-align:left;">
-        <h3 style="margin-bottom:6px; font-family:'Poppins',sans-serif;">Owner — Mahadev Riders</h3>
-        <p style="color:var(--text-muted);">Our owner personally inspects every vehicle and ensures each booking is handled with care. Local knowledge, trusted service — that's our promise.</p>
+<section id="about" class="about-section">
+
+  <style>
+    .about-section{
+      background: linear-gradient(135deg,#f8fbff 0%,#eef3ff 50%,#ffffff 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 100px 20px;
+    }
+
+    .about-blur{
+      position:absolute;
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      filter:blur(80px);
+      opacity:.08;
+    }
+
+    .about-blur.one{
+      top:-120px;
+      left:-120px;
+      background:#4f46e5;
+    }
+
+    .about-blur.two{
+      bottom:-120px;
+      right:-120px;
+      background:#06b6d4;
+    }
+
+    .about-container{
+      max-width:1200px;
+      margin:auto;
+      position:relative;
+      z-index:2;
+    }
+
+    .about-header{
+      text-align:center;
+      margin-bottom:4rem;
+    }
+
+    .about-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 20px;
+      background:rgba(79,70,229,0.08);
+      border:1px solid rgba(79,70,229,0.12);
+      border-radius:999px;
+      font-size:.9rem;
+      font-weight:600;
+      color:#4f46e5;
+      backdrop-filter:blur(10px);
+    }
+
+    .about-title{
+      font-size:clamp(2.2rem,5vw,4rem);
+      margin-top:1.4rem;
+      font-weight:800;
+      line-height:1.1;
+      color:#111827;
+      font-family:'Poppins',sans-serif;
+    }
+
+    .about-desc{
+      max-width:760px;
+      margin:1.3rem auto 0;
+      font-size:1.05rem;
+      line-height:1.9;
+      color:#6b7280;
+    }
+
+    .about-card{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:3rem;
+      align-items:center;
+      background:rgba(255,255,255,0.75);
+      backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,0.6);
+      border-radius:32px;
+      padding:3rem;
+      box-shadow:0 25px 60px rgba(0,0,0,0.06);
+    }
+
+    .about-image-wrapper{
+      position:relative;
+      display:flex;
+      justify-content:center;
+    }
+
+    .about-image-bg{
+      position:absolute;
+      width:260px;
+      height:260px;
+      background:linear-gradient(135deg,#4f46e5,#06b6d4);
+      border-radius:30px;
+      transform:rotate(-8deg);
+      opacity:.15;
+    }
+
+    .about-image{
+      position:relative;
+      width:260px;
+      height:320px;
+      object-fit:cover;
+      border-radius:28px;
+      border:6px solid white;
+      box-shadow:0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    .owner-badge{
+      display:inline-block;
+      padding:8px 18px;
+      border-radius:999px;
+      background:#111827;
+      color:white;
+      font-size:.85rem;
+      margin-bottom:1.2rem;
+      letter-spacing:.5px;
+    }
+
+    .owner-title{
+      font-size:2.3rem;
+      margin-bottom:1rem;
+      color:#111827;
+      font-family:'Poppins',sans-serif;
+      font-weight:700;
+    }
+
+    .owner-desc{
+      color:#6b7280;
+      line-height:1.9;
+      font-size:1rem;
+      margin-bottom:2rem;
+    }
+
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+    }
+
+    .feature-card{
+      background:white;
+      border-radius:20px;
+      padding:1.2rem;
+      border:1px solid #eef2ff;
+      transition:.3s ease;
+    }
+
+    .feature-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 12px 25px rgba(0,0,0,0.08);
+    }
+
+    .feature-card h4{
+      margin-bottom:6px;
+      color:#111827;
+      font-size:1rem;
+    }
+
+    .feature-card p{
+      font-size:.92rem;
+      color:#6b7280;
+      line-height:1.6;
+    }
+
+    /* ================= MOBILE RESPONSIVE ================= */
+
+    @media (max-width: 992px){
+
+      .about-card{
+        grid-template-columns:1fr;
+        text-align:center;
+        padding:2.5rem;
+      }
+
+      .owner-desc{
+        margin-left:auto;
+        margin-right:auto;
+      }
+
+      .feature-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media (max-width: 768px){
+
+      .about-section{
+        padding:70px 16px;
+      }
+
+      .about-title{
+        font-size:2rem;
+      }
+
+      .about-desc{
+        font-size:.95rem;
+        line-height:1.8;
+      }
+
+      .about-card{
+        padding:2rem 1.3rem;
+        border-radius:24px;
+        gap:2rem;
+      }
+
+      .about-image{
+        width:220px;
+        height:280px;
+      }
+
+      .about-image-bg{
+        width:220px;
+        height:220px;
+      }
+
+      .owner-title{
+        font-size:1.8rem;
+      }
+
+      .feature-grid{
+        grid-template-columns:1fr;
+      }
+
+      .feature-card{
+        text-align:left;
+      }
+    }
+
+    @media (max-width: 480px){
+
+      .about-title{
+        font-size:1.7rem;
+      }
+
+      .about-image{
+        width:190px;
+        height:240px;
+      }
+
+      .about-image-bg{
+        width:190px;
+        height:190px;
+      }
+
+      .owner-title{
+        font-size:1.5rem;
+      }
+
+      .about-card{
+        padding:1.5rem 1rem;
+      }
+
+      .about-badge{
+        font-size:.8rem;
+        padding:8px 16px;
+      }
+    }
+
+  </style>
+
+  <div class="about-blur one"></div>
+  <div class="about-blur two"></div>
+
+  <div class="about-container">
+
+    <!-- Heading -->
+    <div class="about-header">
+
+      <div class="about-badge">
+        ✦ About Mahadev Riders
       </div>
+
+      <h2 class="about-title">
+        Driven By Trust <br>
+        Powered By Service
+      </h2>
+
+      <p class="about-desc">
+        We are a family-run rental brand focused on premium experience, clean vehicles, transparent pricing and customer-first support for every ride.
+      </p>
+
     </div>
+
+    <!-- Card -->
+    <div class="about-card">
+
+      <!-- Image -->
+      <div class="about-image-wrapper">
+
+        <div class="about-image-bg"></div>
+
+        <img 
+          src="img/owner.jpeg" 
+          alt="Owner"
+          class="about-image"
+        />
+
+      </div>
+
+      <!-- Content -->
+      <div>
+
+        <div class="owner-badge">
+          Founder & Owner
+        </div>
+
+        <h3 class="owner-title">
+          Mahadev Riders
+        </h3>
+
+        <p class="owner-desc">
+          Every vehicle is personally inspected before delivery to ensure safety, cleanliness and comfort.
+          Our goal is simple — provide a smooth, reliable and premium riding experience with honest pricing and trusted support.
+        </p>
+
+        <!-- Features -->
+        <div class="feature-grid">
+
+          <div class="feature-card">
+            <h4>✔ Clean Vehicles</h4>
+            <p>Well maintained and sanitized rides.</p>
+          </div>
+
+          <div class="feature-card">
+            <h4>⚡ Quick Booking</h4>
+            <p>Fast and easy rental process.</p>
+          </div>
+
+          <div class="feature-card">
+            <h4>💎 Premium Support</h4>
+            <p>Friendly local assistance anytime.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
+
 </section>
+
+
 <section id="pricing">
   <div class="section-inner">
     <div class="section-header reveal" style="text-align: center; max-width: 600px; margin: 0 auto 0;">
@@ -1495,22 +1829,22 @@
 <script>
   // ── BIKES (Single Image) ──
   const bikes = [
-    { img:'img/classic.jpeg', name:'Classic', cat:'Classic Bike · Petrol', features:['Manual','2 Seat','Smooth Ride'], price:'Rs.1,400', period:'/ day' },
+    { img:'img/classic.jpeg', name:'Classic', cat:'Classic Bike · Petrol', features:['Manual','2 Seat','Smooth Ride'], price:'Rs.1,200', period:'/ day' },
     { img:'img/fzs1.jpeg', name:'FZS', cat:'Sports Bike · Petrol', features:['Manual','2 Seat','Smooth Ride'], price:'Rs.1,000', period:'/ day' },
     { img:'img/him.jpeg', name:'Himalayan', cat:'Adventure Bike · Petrol', features:['Manual','2 Seat','Mountain Ready'], price:'Rs.1,500', period:'/ day' },
     { img:'img/jawa.jpeg', name:'Jawa Bobber 42', cat:'Cruiser Bike · Petrol', features:['Manual','2 Seat','Retro Style'], price:'Rs.1,500', period:'/ day' },
     { img:'img/x.jpeg', name:'Xpulse', cat:'Off-Road Bike · Petrol', features:['Manual','2 Seat','Adventure'], price:'Rs.1,400', period:'/ day' },
-    { img:'img/spl2.jpeg', name:'Splendor', cat:'Commuter · Petrol', features:['Manual','2 Seat','Mileage King'], price:'Rs.600', period:'/ day' },
+    { img:'img/spl2.jpeg', name:'Splendor', cat:'Commuter · Petrol', features:['Manual','2 Seat','Mileage King'], price:'Rs.700', period:'/ day' },
     ];
 
   // ── SCOOTIES (Single Image) ──
   const scooties = [
-    { img:'https://imgs.search.brave.com/4F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvSGVy/by1EZXN0aW5pLTEy/NS1SZWFyLXRocmVl/cXVhcnRlci0xNDE1/NTYuanBnP3dtPTAm/cT04MA', name:'Destini', cat:'Scooty · Petrol', features:['Auto','1 Seat','City Rides'], price:'Rs.800', period:'/ day' },
-    { img:'img/12.jpeg', name:'Ntorq', cat:'Scooty · Petrol', features:['Auto','1 Seat','Smooth Ride'], price:'Rs.800', period:'/ day' },
-    { img:'https://imgs.search.brave.com/BaYiWX8czuiLeyveiA5aHG6GNX2OU5OmXBfrgHuzKjs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuOTF3aGVlbHMu/Y29tL2Fzc2V0cy9i/X2ltYWdlcy9nYWxs/ZXJ5L3lhbWFoYS9y/YXl6ci0xMjUtZmkt/aHlicmlkL3lhbWFo/YS1yYXl6ci0xMjUt/ZmktaHlicmlkLTYt/MTc2NDc0NjIzMS5w/bmc_dz0xMTAwJnE9/NDA', name:'Ray ZR', cat:'Scooty · Petrol', features:['Auto','1 Seat','Smooth Ride'], price:'Rs.800', period:'/ day' },
-    { img:'img/7.jpeg', name:'Avenis', cat:'Scooter · Petrol', features:['Petrol','1 Seat'], price:'Rs.700', period:'/ day' },
-    { img:'https://imgs.search.brave.com/3F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvSGVy/by1BY3RpdmEtNi1H/LTE1ODYzNDI2Nzku/anBnP3dtPTAmcT04/MA', name:'Activa', cat:'Scooter · Petrol', features:['Auto','1 Seat','Urban Ride'], price:'Rs.700', period:'/ day' },
-    { img:'https://imgs.search.brave.com/2F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvU3V6/dWtpLUFjY2Vzcy0x/MjUtU3BlY2lhbC1F/ZGl0aW9uLTE2MjE0/MjE1ODIuanBnP3dt/PTAmcT04MA', name:'Access', cat:'Scooter · Petrol', features:['Auto','1 Seat','City Rides'], price:'Rs.750', period:'/ day' },
+    { img:'img/des.jpeg', name:'Destini', cat:'Scooty · Petrol', features:['Auto','1 Seat','City Rides'], price:'Rs.500', period:'/ day' },
+    { img:'img/antrog1.jpeg', name:'Ntorq', cat:'Scooty · Petrol', features:['Auto','1 Seat','Smooth Ride'], price:'Rs.700', period:'/ day' },
+    { img:'img/rayzr1.jpeg', name:'Ray ZR', cat:'Scooty · Petrol', features:['Auto','1 Seat','Smooth Ride'], price:'Rs.600', period:'/ day' },
+    { img:'img/avanies1.jpeg', name:'Avenis', cat:'Scooter · Petrol', features:['Petrol','1 Seat'], price:'Rs.600', period:'/ day' },
+    { img:'img/Activa.jpeg', name:'Activa', cat:'Scooter · Petrol', features:['Auto','1 Seat','Urban Ride'], price:'Rs.600', period:'/ day' },
+    { img:'img/acc.jpeg', name:'Access', cat:'Scooter · Petrol', features:['Auto','1 Seat','City Rides'], price:'Rs.600', period:'/ day' },
 
   ];
 
