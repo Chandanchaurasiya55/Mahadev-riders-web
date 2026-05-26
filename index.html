@@ -7,15 +7,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f6fbfb; /* slightly teal-tinged background */
+      --bg: #f6fbfb;
       --bg-elevated: #ffffff;
       --bg-card: #ffffff;
       --border: rgba(0,0,0,0.06);
       --border-hover: rgba(0,0,0,0.12);
-      --gold: #0ea5a4; /* primary accent (teal) */
+      --gold: #0ea5a4;
       --gold-light: #34d1c4;
       --gold-dim: rgba(14,165,164,0.08);
-      --text: #0f1724; /* darker slate */
+      --text: #0f1724;
       --text-muted: #55606a;
       --text-light: #9aa6ad;
       --shadow: rgba(2,6,23,0.04);
@@ -40,6 +40,116 @@
 
     h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
 
+    /* ── City Popup ── */
+    .city-popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 3rem;
+      backdrop-filter: blur(4px);
+      animation: fadeIn 0.3s ease;
+    }
+    .city-popup-overlay.hidden {
+      display: none;
+    }
+    .city-popup {
+      background: #fff;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 420px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: slideDown 0.4s ease;
+    }
+    .city-popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .city-popup-header h3 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .city-popup-header h3::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230ea5a4'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+    }
+    .city-popup-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ff4444;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .city-popup-close:hover { background: #cc0000; transform: scale(1.1); }
+    .city-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .city-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      height: 120px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .city-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .city-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .city-card:hover img { transform: scale(1.1); }
+    .city-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 12px;
+    }
+    .city-card span {
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       height: 72px; padding: 0 2.5rem;
@@ -56,9 +166,13 @@
       width: 42px; height: 42px; border-radius: 12px;
       background: linear-gradient(135deg, var(--gold), #a67c00);
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; font-weight: 800; color: #fff;
-      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
       box-shadow: 0 4px 15px rgba(196,154,44,0.3);
+    }
+    .nav-logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .nav-logo-text .brand { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 16px; color: var(--text); letter-spacing: -0.3px; }
     .nav-logo-text .sub { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Space Mono', monospace; }
@@ -238,19 +352,7 @@
     .section-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; max-width: 600px; }
     .section-header { margin-bottom: 3.5rem; }
 
-    .fleet-tabs {
-      display: flex; gap: 0.5rem; margin-bottom: 2.5rem; flex-wrap: wrap;
-    }
-    .fleet-tab {
-      padding: 10px 22px; border-radius: var(--radius-sm);
-      background: transparent; border: 1px solid var(--border);
-      color: var(--text-muted); font-size: 13px; font-weight: 500;
-      cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s;
-    }
-    .fleet-tab.active, .fleet-tab:hover {
-      background: var(--gold-dim); border-color: var(--gold); color: var(--gold);
-    }
-
+    /* ── Enhanced Vehicle Grid ── */
     .fleet-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;
     }
@@ -258,20 +360,29 @@
     .vehicle-card {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: var(--radius); overflow: hidden;
-      transition: all 0.3s; cursor: pointer; position: relative;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer; position: relative;
       box-shadow: 0 4px 20px var(--shadow);
     }
     .vehicle-card:hover {
-      transform: translateY(-6px); border-color: var(--border-hover);
-      box-shadow: 0 24px 60px var(--shadow-hover);
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--gold);
+      box-shadow: 0 30px 70px rgba(14,165,164,0.15), 0 10px 30px rgba(0,0,0,0.1);
     }
     .vehicle-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transform: scaleX(0); transition: transform 0.4s; transform-origin: left;
+      z-index: 2;
+    }
+    .vehicle-card:hover::before { transform: scaleX(1); }
+    .vehicle-card::after {
       content: ''; position: absolute; top: 0; right: 0;
       width: 150px; height: 150px;
-      background: radial-gradient(circle, rgba(196,154,44,0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(14,165,164,0.08) 0%, transparent 70%);
     }
     .vcard-img-wrap {
-      height: 225px; background: linear-gradient(135deg, #f8f9fc 0%, #f0f0f0 100%);
+      height: 225px; background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
       display: flex; align-items: stretch; justify-content: center;
       padding: 0; position: relative; overflow: hidden;
     }
@@ -282,11 +393,12 @@
     .vcard-img {
       display: block;
       width: 100%; height: 100%;
-      object-fit: cover; /* fill card fully */
+      object-fit: cover;
       object-position: center center;
-      transition: transform 0.4s; z-index: 1;
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1;
+      cursor: zoom-in;
     }
-    .vehicle-card:hover .vcard-img { transform: scale(1.08); }
+    .vehicle-card:hover .vcard-img { transform: scale(1.12); }
     .vcard-body { padding: 1.5rem; position: relative; z-index: 1; }
     .vcard-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--text); margin-bottom: 4px; }
     .vcard-type { font-size: 12px; color: var(--gold); font-family: 'Space Mono', monospace; margin-bottom: 1rem; }
@@ -296,6 +408,11 @@
     .vcard-feature {
       background: var(--gold-dim); border: 1px solid var(--border);
       border-radius: 5px; padding: 3px 10px; font-size: 11px; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .vehicle-card:hover .vcard-feature {
+      background: rgba(14,165,164,0.12);
+      border-color: var(--gold);
     }
     .vcard-footer {
       display: flex; align-items: center; justify-content: space-between;
@@ -309,7 +426,83 @@
       color: var(--gold); font-size: 13px; font-weight: 600; cursor: pointer;
       transition: all 0.2s; font-family: 'Poppins', sans-serif; text-decoration: none; display: inline-block;
     }
-    .vcard-btn:hover { background: var(--gold); color: #fff; }
+    .vcard-btn:hover { background: var(--gold); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(14,165,164,0.3); }
+
+    /* Lightbox Gallery */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+    .lightbox-overlay.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+    .lightbox-container {
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+    }
+    .lightbox-main-img {
+      width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+    .lightbox-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .lightbox-gallery img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+    .lightbox-gallery img:hover {
+      transform: scale(1.05);
+      border-color: var(--gold);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .lightbox-close:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .lightbox-title {
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
 
     #how { background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%); }
     .steps-grid {
@@ -332,6 +525,7 @@
     .step-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--text); margin-bottom: 0.5rem; }
     .step-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
 
+    /* ── Why Us Swiper ── */
     .why-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
     }
@@ -351,16 +545,54 @@
     }
     .why-text h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text); font-size: 0.95rem; margin-bottom: 4px; }
     .why-text p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
     .why-visual {
       background: var(--bg-elevated); border: 1px solid var(--border-hover);
       border-radius: var(--radius); padding: 2.5rem; text-align: center;
       box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+      overflow: hidden;
     }
-    .why-visual img {
-      width: 100%; max-width: 400px; height: auto; border-radius: 12px;
-      margin-bottom: 1.5rem; object-fit: cover;
-      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.1));
+    .why-swiper {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 1.5rem;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
     }
+    .why-swiper-track {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 100%;
+    }
+    .why-swiper-track img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border-radius: 12px;
+    }
+    .why-swiper-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .why-swiper-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-hover);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .why-swiper-dot.active {
+      background: var(--gold);
+      width: 24px;
+      border-radius: 4px;
+    }
+
     .why-testimonial {
       background: var(--bg-card); border-radius: 12px; padding: 1.5rem;
       border: 1px solid var(--border); text-align: left;
@@ -453,7 +685,6 @@
     }
     .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 25px rgba(196,154,44,0.4); }
 
-    /* ENHANCED FOOTER */
     footer {
       background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
       border-top: 1px solid rgba(196,154,44,0.2);
@@ -652,9 +883,10 @@
     .camera-img {
       display: block;
       width: 100%; height: 100%;
-      object-fit: cover; /* fill card fully */
+      object-fit: cover;
       object-position: center center;
       transition: transform 0.4s; z-index: 1;
+      cursor: zoom-in;
     }
     .camera-card:hover .camera-img { transform: scale(1.08); }
     .camera-body { padding: 1.5rem; position: relative; z-index: 1; }
@@ -670,6 +902,7 @@
     @keyframes slideLeft { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.4); } 50% { box-shadow: 0 0 0 10px rgba(37,211,102,0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .reveal { opacity: 0; transform: translateY(28px); transition: all 0.7s ease; }
     .reveal.visible { opacity: 1; transform: none; }
@@ -686,6 +919,8 @@
       .why-visual { order: -1; }
       .booking-grid { grid-template-columns: 1fr; gap: 3rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
+      .lightbox-gallery { grid-template-columns: repeat(2, 1fr); }
+      .city-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 768px) {
       nav { padding: 0 1.25rem; }
@@ -693,54 +928,102 @@
       .hamburger { display: flex; }
       section { padding: 4rem 1.25rem; }
       .hero { padding: 6rem 1.25rem 3rem; }
-      .hero-visual { display: none; }  /* <-- HERO CARD HIDDEN ON MOBILE */
+      .hero-visual { display: none; }
       .hero-stats { gap: 1.5rem; }
-      .fleet-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
       .form-row { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
       .footer-bottom { flex-direction: column; text-align: center; }
+      .lightbox-gallery { grid-template-columns: 1fr; }
+      .lightbox-gallery img { height: 100px; }
+      .city-grid { grid-template-columns: 1fr 1fr; }
+      .city-card { height: 100px; }
+      .city-popup { width: 95%; padding: 1rem; }
+      .why-swiper { max-width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .fleet-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .city-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .city-card { height: 90px; }
+      .city-card span { font-size: 12px; }
     }
   </style>
 <base target="_blank">
-<base target="_blank">
 </head>
 <body>
+<!-- ── City Selection Popup ── -->
+<div class="city-popup-overlay" id="cityPopup">
+  <div class="city-popup">
+    <div class="city-popup-header">
+      <h3>Select City To Continue</h3>
+      <button class="city-popup-close" onclick="closeCityPopup()">&times;</button>
+    </div>
+    <div class="city-grid">
+      <div class="city-card" onclick="selectCity('Haldwani')">
+        <img src="https://imgs.search.brave.com/q7T0uIuvtWQuYJTCI9FdHyfiHDstBnmkmklt88s7fZk/rs:fit:0:180:1:0/g:ce/aHR0cHM6Ly9iLnRo/dW1icy5yZWRkaXRt/ZWRpYS5jb20vZHZJ/VXByX3UxekRHcDlQ/V2pjdFR5MUVoS1NV/dlAtR3VPcjBqODZM/Uk5rWS5qcGc" alt="Haldwani" />
+        <div class="city-card-overlay"><span>HALDWANI</span></div>
+      </div>
+      <div class="city-card" onclick="selectCity('Kathgodam')">
+        <img src="https://imgs.search.brave.com/flBZip_8oudymPBMmrO870pP5-PHes0MnzTXPDCtSXo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Y2hhcmRoYW10b3Vy/cy5pbi9nYWxsZXJ5/L2hvdGVsSW1hZ2Uv/MTQ3NTIzMTkxMl8x/a2F0aCUyMDIuanBn" alt="Kathgodam" />
+        <div class="city-card-overlay"><span>KATHGODAM</span></div>
+      </div>
+      <div class="city-card" onclick="selectCity('Nainital')">
+        <img src="https://imgs.search.brave.com/-YvwvlCNen7GbU5bmbQM_DFLGAFdVXIDMlnN0xdG5FY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMjE2/Nzk0NzY0MC9waG90/by9pbmRpYW4tdG91/cmlzdHMtcGFkZGxl/LWJvYXQtYWxvbmct/bmFpbmktbGFrZS1p/bi1uYWluaXRhbC11/dHRhcmFraGFuZC1p/bmRpYS1vbi1hcHJp/bC0yMS0yMDI0Lmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/TnJLRENFSFU3X2l6/SkU2ZUl5Q0RzaVNx/SFhORm1WMUlZRFRI/NXljUGtrPQ" alt="Nainital" />
+        <div class="city-card-overlay"><span>NAINITAL</span></div>
+      </div>
+      <div class="city-card" onclick="selectCity('Kainchi Dham')">
+        <img src="https://imgs.search.brave.com/nXq-PxqT8yVNhLFnFPyTZV6-y3GD0AmcwvX3wrDbd04/rs:fit:500:0:1:0/g:ce/aHR0cDovL2J1Z3lh/bHZhbGxleS5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMTkv/MTEva2FpbmNoaS1k/aGFtLmpwZw" alt="Kainchi Dham" />
+        <div class="city-card-overlay"><span>KAINCHI<br>DHAM</span></div>
+      </div>
+      <div class="city-card" onclick="selectCity('Bhimtal')">
+        <img src="https://imgs.search.brave.com/bQqPW-WTeQksEp6Yvlqk74G7X2nD61xS46lKvtih9ig/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIy/MzIyMDUxMy9waG90/by9iaGltdGFsLWxh/a2UtbG9jYXRlZC1p/bi10aGUtbmFpbml0/YWwtZGlzdHJpY3Qt/b2YtdXR0YXJha2hh/bmQud2VicD9hPTEm/Yj0xJnM9NjEyeDYx/MiZ3PTAmaz0yMCZj/PURqV002N1JDMlRx/c3k4SThFSG4wOThj/M1RZYlJ3N3FMVVlk/djQ5Z2pTNE09" alt="Bhimtal" />
+        <div class="city-card-overlay"><span>BHIMTAL</span></div>
+      </div>
+      <div class="city-card" onclick="selectCity('Bhowali')">
+        <img src="https://imgs.search.brave.com/rEWLibQ4fz02GuGnNTDZPceRXg2uQnjWscHhF5ESxvI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/dG91cm15aW5kaWEu/Y29tL3N0YXRlcy91/dHRhcmFraGFuZC9p/bWFnZXMvbW91bnRh/aW4tbWFnaWMta2F1/c2FuaS5qcGc" alt="Bhowali" />
+        <div class="city-card-overlay"><span>BHOWALI</span></div>
+      </div>
+      <div class="city-card" onclick="selectCity('Rudrapur')">
+        <img src="https://imgs.search.brave.com/YfqaqjRIDlYevxJ9Y07aO_uYRG2C89lzjjGZVZbB_KE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvODg5/MTE1OTgvcGhvdG8v/aW5kaWEtYWVyaWFs/LXZpZXctb2YtcnVk/cmFwdXItaW4tdXR0/YXJha2hhbmQtaW5k/aWEuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXJEVE1qdjVJ/WEE0T0dBSEI5WDNC/allkMUNpVFY1VnJo/WEc4Y2JFeHhnd2M9" alt="Rudrapur" />
+        <div class="city-card-overlay"><span>RUDRAPUR</span></div>
+      </div>
+      <div class="city-card" onclick="selectCity('Ramnagar')">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop" alt="Ramnagar" />
+        <div class="city-card-overlay"><span>RAMNAGAR</span></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- WhatsApp -->
-<a class="whatsapp-float" href="https://wa.me/919999999999?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book" target="_blank" title="Chat on WhatsApp">
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
+<a class="whatsapp-float" href="https://wa.me/917505323308?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book" title="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5 -.669 -.51 -.173 -.008 -.371 -.01 -.57 -.01 -.198 0 -.52 .074 -.792 .372 -.272 .297 -1.04 1.016 -1.04 2.479 0 1.462 1.065 2.875 1.２１３ 3.０７４ .１４９ .１９８ ２．０９６ ３．２ ５．０７７ ４．４８７ .７０９ .３０６ １．２６２ .４８９ １．６９４ .６２５ .７１２ .２２７ １．３６ .１９５ １．８７１ .１１８ .５７１ -.０８５ １．７５８ -.７１９ ２．００６ -₁．４₁₃ .₂₄₈ -․₆₉₄ .₂₄₈ -₁．₂₈₉ .₁₇₃ -₁．₄₁₃ -․₀₇₄ -․₁₂₄ -․₂₇₂ -․₁₉₈ -․៥₇ -․₃₄₇m -⁵．⁴²¹ ⁷．⁴⁰³h -․₀₀⁴a ⁹．⁸⁷ ⁹．⁸⁷ ₀ ₀¹ -⁵．⁰³¹ -¹．³⁷⁸l -․³⁶¹ -․²¹⁴ -³．⁷⁴¹ .９８² .９９⁸ -³．⁶⁴⁸ -․²³⁵ -․³⁷⁴a ⁹．⁸⁶ ⁹．⁸⁶ ₀ ₀¹ -¹．⁵¹ -⁵．²⁶c .₀₀¹ -៥．៥   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵗ   ᵜ   
+  <div class="lightbox-gallery" id="lightboxGallery"></div>
+  </div>
+</div>
 
 <!-- Navbar -->
-<<nav id="navbar">
+<nav id="navbar">
   <a class="nav-logo" href="#home">
-    <div class="nav-logo-icon">MR</div>
+    <div class="nav-logo-icon">
+      <img src="img/ex1.jpeg" alt="Mahadev Riders Logo" onerror="this.style.display='none'; this.parentElement.textContent='MR'; this.parentElement.style.color='#fff'; this.parentElement.style.fontFamily='Poppins,sans-serif'; this.parentElement.style.fontWeight='800'; this.parentElement.style.fontSize='20px';" />
+    </div>
     <div class="nav-logo-text">
       <div class="brand">Mahadev Riders</div>
-      <div class="sub">Haldwani · Since 2018</div>
     </div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#fleet">Fleet</a></li>
-    <li><a href="#cameras">Cameras</a></li>
-    <li><a href="#how">How it Works</a></li>
-    <li><a href="#why">Why Us</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#booking">Contact</a></li>
-  </ul>
-  <a class="nav-cta" href="https://wa.me/917505860661?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book." rel="noopener">Book Now</a>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
+    </div>
 
+    <!-- Navbar -->
 <div class="mobile-nav" id="mobileNav">
-  <a href="#fleet" onclick="toggleMenu()">Our Fleet</a>
+  <a href="#cars" onclick="toggleMenu()">Cars</a>
+  <a href="#bikes" onclick="toggleMenu()">Bikes</a>
+  <a href="#scooties" onclick="toggleMenu()">Scooties</a>
   <a href="#cameras" onclick="toggleMenu()">Camera Rentals</a>
   <a href="#how" onclick="toggleMenu()">How it Works</a>
   <a href="#why" onclick="toggleMenu()">Why Choose Us</a>
   <a href="#pricing" onclick="toggleMenu()">Pricing</a>
-  <a href="https://wa.me/917505860661?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book." onclick="toggleMenu()" rel="noopener">Book Now</a>
+  <a href="https://wa.me/917505323308?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book." onclick="toggleMenu()" rel="noopener">Book Now</a>
 </div>
 
 <!-- HERO -->
@@ -756,14 +1039,13 @@
       <h1 class="hero-title">
        Rent A Car With<br/>
         <span class="highlight"> Mahadev Riders</span><br/>
-       
       </h1>
       <p class="hero-desc">
         Premium cars, scooties, bikes & cameras on rent in Haldwani. Self-drive or chauffeur — perfect for trips to Nainital, Corbett, Ranikhet and beyond.
       </p>
       <div class="hero-actions">
-        <a class="btn-primary" href="#fleet">Browse Fleet</a>
-        <a class="btn-outline" href="tel:+917505860661">Call Now</a>
+        <a class="btn-primary" href="#cars">Browse Cars</a>
+        <a class="btn-outline" href="tel:+917505323308">Call Now</a>
       </div>
       <div class="hero-stats">
         <div class="stat-item">
@@ -784,8 +1066,8 @@
     <div class="hero-visual">
       <div style="position: relative;">
         <div class="hero-car-card">
-          <div class="hero-img-wrap"><img src="img/1.jpeg" alt="Maruti Suzuki" class="hero-img" /></div>
-          <div class="car-name">Maruti Suzuki</div>
+          <div class="hero-img-wrap"><img src="img/scorpion1.jpeg" alt="Scorpion N" class="hero-img" /></div>
+          <div class="car-name">Scorpion N</div>
           <div class="car-type">SUV · 4WD · 7 SEATER</div>
           <div class="car-meta">
             <div class="car-meta-item"><div class="car-meta-val">7</div><div class="car-meta-key">Seats</div></div>
@@ -794,9 +1076,9 @@
           </div>
           <div class="car-price-row">
             <div>
-              <div class="car-price">₹6,000 <span>/ day</span></div>
+              <div class="car-price">Rs.6,000 <span>/ day</span></div>
             </div>
-            <a class="vcard-btn" href="https://wa.me/917505860661?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20the%20Maruti%20Suzuki."  rel="noopener">Book</a>
+            <a class="vcard-btn" href="https://wa.me/917505323308?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20the%20Scorpion%20N." rel="noopener">Book</a>
           </div>
         </div>
         <div class="floating-tags">
@@ -809,24 +1091,39 @@
   </div>
 </section>
 
-<!-- FLEET -->
-<section id="fleet">
+<!-- CARS SECTION (Cars + SUVs merged) -->
+<section id="cars">
   <div class="section-inner">
     <div class="section-header reveal">
-      <div class="section-badge">Our Fleet</div>
-      <h2 class="section-title">Choose Your Ride</h2>
-      <p class="section-desc">From budget scooties to premium SUVs — find the perfect vehicle for your Uttarakhand adventure. All prices updated for 2025.</p>
+      <div class="section-badge">Our Cars</div>
+      <h2 class="section-title">Premium Cars & SUVs</h2>
+      <p class="section-desc">Comfortable sedans, hatchbacks and powerful SUVs for city drives and Himalayan roads.</p>
     </div>
+    <div class="fleet-grid" id="carsGrid"></div>
+  </div>
+</section>
 
-    <div class="fleet-tabs reveal">
-      <button class="fleet-tab active" onclick="filterFleet('all', this)">All Vehicles</button>
-      <button class="fleet-tab" onclick="filterFleet('car', this)">Cars</button>
-      <button class="fleet-tab" onclick="filterFleet('suv', this)">SUVs</button>
-      <button class="fleet-tab" onclick="filterFleet('scooty', this)">Scooties</button>
-      <button class="fleet-tab" onclick="filterFleet('bike', this)">Bikes</button>
+<!-- BIKES SECTION -->
+<section id="bikes" style="background: linear-gradient(180deg, #f8f9fc 0%, #ffffff 100%);">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-badge">Our Bikes</div>
+      <h2 class="section-title">Two Wheelers</h2>
+      <p class="section-desc">From classic Bullets to modern sports bikes — ride in style across Kumaon.</p>
     </div>
+    <div class="fleet-grid" id="bikesGrid"></div>
+  </div>
+</section>
 
-    <div class="fleet-grid" id="fleetGrid"></div>
+<!-- SCOOTIES SECTION -->
+<section id="scooties">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-badge">Our Scooties</div>
+      <h2 class="section-title">Scooties & Scooters</h2>
+      <p class="section-desc">Easy city rides and short trips. Fuel efficient and hassle-free.</p>
+    </div>
+    <div class="fleet-grid" id="scootiesGrid"></div>
   </div>
 </section>
 
@@ -903,15 +1200,31 @@
         </div>
       </div>
       <div class="why-visual reveal">
-        <img src="img/29.jpeg" alt="Mahindra Scorpio N" style="filter: drop-shadow(0 10px 30px rgba(0,0,0,0.1));" />
+        <!-- Swiper -->
+        <div class="why-swiper" id="whySwiper">
+          <div class="why-swiper-track" id="whySwiperTrack">
+            <img src="img/scorpion1.jpeg" alt="Mahindra Scorpio N" />
+            <img src="img/cs1.jpeg" alt="SUV" />
+            <img src="img/cs2.jpeg" alt="Car" />
+            <img src="img/cs3.jpeg" alt="Hyundai" />
+            <img src="img/cs4.jpeg" alt="Hyundai" />
+            <img src="img/cs5.jpeg" alt="Hyundai" />
+            <img src="img/cs6.jpeg" alt="Hyundai" />
+            <img src="img/cs7.jpeg" alt="Hyundai" />
+            <img src="img/cs8.jpeg" alt="Hyundai" />
+            <img src="img/cs9.jpeg" alt="Hyundai" />
+            <img src="img/cs10.jpeg" alt="Hyundai" />
+          </div>
+        </div>
+        <div class="why-swiper-dots" id="whySwiperDots"></div>
         <div class="why-testimonial">
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p>"Rented a Scorpio N for our Corbett trip. The SUV was spotless, the team was super helpful, and drop-off was effortless. Will definitely book again!"</p>
+          <div id="whyTestStars" class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p id="whyTestQuote">"Rented a Scorpio N for our Corbett trip. The SUV was spotless, the team was super helpful, and drop-off was effortless. Will definitely book again!"</p>
           <div class="reviewer">
-            <div class="reviewer-avatar">RK</div>
+            <div id="whyTestAvatar" class="reviewer-avatar">RK</div>
             <div>
-              <div class="reviewer-name">Rajat Kumar</div>
-              <div class="reviewer-loc">Delhi · Corbett trip, 2025</div>
+              <div id="whyTestName" class="reviewer-name">Rajat Kumar</div>
+              <div id="whyTestLoc" class="reviewer-loc">Delhi · Corbett trip, 2025</div>
             </div>
           </div>
         </div>
@@ -921,6 +1234,23 @@
 </section>
 
 <!-- PRICING -->
+<!-- ABOUT US -->
+<section id="about" style="background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-badge" style="justify-content:center;">About Us</div>
+      <h2 class="section-title">Meet The Owner</h2>
+      <p class="section-desc" style="margin: 0 auto 1.5rem;">Family-run rental service dedicated to clean vehicles, transparent pricing and helpful support for every trip.</p>
+    </div>
+    <div style="display:flex; gap:2rem; align-items:center; justify-content:center; flex-wrap:wrap;">
+      <img src="img/owner.jpeg" alt="Owner" style="width:140px; height:140px; object-fit:cover; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,0.08);" />
+      <div style="max-width:700px; text-align:left;">
+        <h3 style="margin-bottom:6px; font-family:'Poppins',sans-serif;">Owner — Mahadev Riders</h3>
+        <p style="color:var(--text-muted);">Our owner personally inspects every vehicle and ensures each booking is handled with care. Local knowledge, trusted service — that's our promise.</p>
+      </div>
+    </div>
+  </div>
+</section>
 <section id="pricing">
   <div class="section-inner">
     <div class="section-header reveal" style="text-align: center; max-width: 600px; margin: 0 auto 0;">
@@ -933,40 +1263,40 @@
         <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">&#128690;</span>
         <div class="pricing-name">Scooty / Scooter</div>
         <div class="pricing-period">ECONOMY · SELF DRIVE</div>
-        <div class="pricing-price">₹300 <span>/ day</span></div>
+        <div class="pricing-price">Rs.800 <span>/ day</span></div>
         <ul class="pricing-features">
           <li>Activa, Jupiter, Access 125</li>
           <li>Helmet included</li>
           <li>Valid DL required</li>
           <li>Ideal for solo city rides</li>
         </ul>
-        <a class="btn-primary" href="https://wa.me/917505860661?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20a%20Scooty%20%2F%20Scooter." target="_blank" rel="noopener">Book Now</a>
+        <a class="btn-primary" href="https://wa.me/917505323308?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20a%20Scooty%20%2F%20Scooter." rel="noopener">Book Now</a>
       </div>
       <div class="pricing-card featured reveal reveal-delay-2">
         <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">&#128664;</span>
         <div class="pricing-name">Sedan / Hatchback</div>
         <div class="pricing-period">COMFORT · SELF DRIVE OR DRIVER</div>
-        <div class="pricing-price">₹800 <span>/ day</span></div>
+        <div class="pricing-price">Rs.2500 <span>/ day</span></div>
         <ul class="pricing-features">
           <li>Swift, Dzire, i20, Baleno, Tiago</li>
           <li>AC · Bluetooth · Power Steering</li>
           <li>Insurance included</li>
-          <li>Driver option available (+₹400)</li>
+          <li>Driver option available (+Rs.400)</li>
         </ul>
-        <a class="btn-primary" href="https://wa.me/917505860661?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20a%20Sedan%20%2F%20Hatchback." target="_blank" rel="noopener">Book Now</a>
+        <a class="btn-primary" href="https://wa.me/917505323308?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20a%20Sedan%20%2F%20Hatchback." rel="noopener">Book Now</a>
       </div>
       <div class="pricing-card reveal reveal-delay-3">
         <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">&#128663;</span>
         <div class="pricing-name">SUV / MUV</div>
         <div class="pricing-period">PREMIUM · MOUNTAIN READY</div>
-        <div class="pricing-price">₹1,500 <span>/ day</span></div>
+        <div class="pricing-price">Rs.4,500 <span>/ day</span></div>
         <ul class="pricing-features">
           <li>Bolero, Innova, Ertiga, Scorpio N</li>
           <li>7 seats · High ground clearance</li>
           <li>Insurance included</li>
           <li>Best for hill stations</li>
         </ul>
-        <a class="btn-primary" href="https://wa.me/917505860661?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20an%20SUV%20%2F%20MUV." target="_blank" rel="noopener">Book Now</a>
+        <a class="btn-primary" href="https://wa.me/917505323308?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book%20an%20SUV%20%2F%20MUV." rel="noopener">Book Now</a>
       </div>
     </div>
 
@@ -990,15 +1320,18 @@
             <div class="contact-icon">&#9742;</div>
             <div class="contact-text">
               <h4>Phone / WhatsApp</h4>
-              <a href="tel:+917505860661">+91 75058 60661</a><br/>
-              <a href="https://wa.me/917505323308"  rel="noopener">WhatsApp Us</a>
+              <a href="tel:+917505323308">+91 75053 23308</a><br/>
+              <a href="tel:+917505323308">+91 75053 23308</a><br/>
+              <a href="https://wa.me/917505323308" rel="noopener">WhatsApp Us</a>
             </div>
           </div>
           <div class="contact-item reveal reveal-delay-2">
             <div class="contact-icon">&#128205;</div>
             <div class="contact-text">
-              <h4>Location</h4>
-              <p>Uncha pull chawraha, Haldwani,<br/>Nainital, Uttarakhand — 263139</p>
+              <h4>Office 1</h4>
+              <p>Shop No. 18, Durga City Center,<br/>Haldwani, Nainital, Uttarakhand</p>
+              <h4 style="margin-top:8px;">Office 2</h4>
+              <p>NSN Complex, Unchapul,<br/>Haldwani, Nainital, Uttarakhand</p>
             </div>
           </div>
           <div class="contact-item reveal reveal-delay-3">
@@ -1012,7 +1345,7 @@
             <div class="contact-icon">&#9993;</div>
             <div class="contact-text">
               <h4>Email</h4>
-              <a href="mailto:mahadev.riders@gmail.com">mahadev.riders@gmail.com</a>
+              <a href="mailto:mahadevriders@.com">mahadevriders@.com</a>
             </div>
           </div>
         </div>
@@ -1046,12 +1379,12 @@
             <label>Item Type</label>
             <select>
               <option value="">-- Select Item --</option>
-              <option>Scooty (₹300/day)</option>
-              <option>Hatchback / Sedan (₹800/day)</option>
-              <option>SUV / MUV (₹1,500/day)</option>
-              <option>Bike (₹600/day)</option>
-              <option>Camera — Nikon D7500 (₹800/day)</option>
-              <option>Camera — Avines (₹600/day)</option>
+              <option>Scooty (Rs.800/day)</option>
+              <option>Hatchback / Sedan (Rs.2500/day)</option>
+              <option>SUV / MUV (Rs.4500/day)</option>
+              <option>Bike (Rs.700-1400/day)</option>
+              <option>Camera — Nikon D7500 (Rs.800/day)</option>
+              <option>Camera — Canon 1500 D (Rs.500/day)</option>
             </select>
           </div>
           <div class="form-group">
@@ -1067,25 +1400,24 @@
     </div>
   </div>
 </section>
-
-
 <!-- ENHANCED FOOTER -->
-<<footer>
+<footer>
   <div class="footer-inner">
     <div class="footer-grid">
       <!-- Brand Column -->
       <div class="footer-brand">
         <a class="nav-logo" href="#home" style="margin-bottom: 0.75rem; display: inline-flex;">
-          <div class="nav-logo-icon">MR</div>
+          <div class="nav-logo-icon">
+            <img src="img/logo.jpeg" alt="Mahadev Riders Logo" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.parentElement.textContent='MR'; this.parentElement.style.color='#fff'; this.parentElement.style.fontFamily='Poppins,sans-serif'; this.parentElement.style.fontWeight='800'; this.parentElement.style.fontSize='20px';" />
+          </div>
           <div class="nav-logo-text">
             <div class="brand">Mahadev Riders</div>
-            <div class="sub">Haldwani · Since 2018</div>
           </div>
         </a>
         <p>Your trusted vehicle & camera rental partner in Kumaon. Comfortable rides and professional gear for the Himalayan foothills and beyond.</p>
         <div class="footer-social">
           <a href="#" class="social-icon" title="Facebook">f</a>
-          <a href="#" class="social-icon" title="Instagram">📷</a>
+          <a href="https://www.instagram.com/mahadev__riders?igsh=MThlOGt2ZW8wa2pl" class="social-icon" title="Instagram" target="_blank" rel="noopener">📷</a>
           <a href="#" class="social-icon" title="Twitter">𝕏</a>
           <a href="#" class="social-icon" title="YouTube">▶</a>
         </div>
@@ -1095,11 +1427,12 @@
       <div class="footer-col">
         <h5>Quick Links</h5>
         <ul>
-          <li><a href="#fleet">Our Fleet</a></li>
+          <li><a href="#cars">Cars</a></li>
+          <li><a href="#bikes">Bikes</a></li>
+          <li><a href="#scooties">Scooties</a></li>
           <li><a href="#cameras">Camera Rentals</a></li>
-          <li><a href="#how">How It Works</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="https://wa.me/91 7505860661?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book." target="_blank" rel="noopener">Book Now</a></li>
+          <li><a href="https://wa.me/917505323308?text=Hello%20Mahadev%20Riders%2C%20I%20want%20to%20book." rel="noopener">Book Now</a></li>
         </ul>
       </div>
 
@@ -1119,9 +1452,10 @@
       <div class="footer-col">
         <h5>Contact</h5>
         <ul>
-          <li><a href="tel:+91 7505860661">+91 7505860661</a></li>
-          <li><a href="https://wa.me/91 7505860661">WhatsApp</a></li>
-          <li><a href="mailto:mahadev.riders@gmail.com">Email Us</a></li>
+          <li><a href="tel:+917505860661">+91 75058 60661</a></li>
+          <li><a href="tel:+917505323308">+91 75053 23308</a></li>
+          <li><a href="https://wa.me/917505323308">WhatsApp</a></li>
+          <li><a href="mailto:mahadevriders@.com">Email Us</a></li>
           <li><a href="#booking">Find Us</a></li>
         </ul>
       </div>
@@ -1161,46 +1495,52 @@
 </footer>
 
 <script>
-  // ── Fleet Data with Placeholder Images ──
-  const vehicles = [
-    { type:'scooty', img:'https://imgs.search.brave.com/4F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvSGVy/by1EZXN0aW5pLTEy/NS1SZWFyLXRocmVl/cXVhcnRlci0xNDE1/NTYuanBnP3dtPTAm/cT04MA', name:'Destini 125', cat:'Scooty · petrol', features:['Auto','1 Seat','City Rides'], price:'₹800', period:'/ day' },
-    { type:'Bullet', img:'https://imgs.search.brave.com/LJPo46OrRapRm1cmKFPgMaplWAlCtcxjIudASr1QOyY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9yb3lh/bC1lbmZpZWxkLWJp/a2UtbWFkZS1saWtl/LWd1bi1nb2VzLWJ1/bGxldC0xMjk0OTQ2/ODYuanBn', name:'Bullet', cat:'Scooty · petrol', features:['Auto','1 Seat','Smooth Ride'], price:'₹1400', period:'/ day' },
-    { type:'car',    img:'img/18.jpeg', name:'Hundai Exter', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'₹4,000', period:'/ day' },
-    { type:'Bike',   img:'https://imgs.search.brave.com/Kd1VC1KL-eJQKkrEj5W9GNlRl_2Pl9ReDPxKcizALgs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudHJhY3Rvcmp1/bmN0aW9uLmNvbS9C/TEFDS19HUkVZX1NU/UklQRV8xMjQ0ZTg0/MjMyLnBuZz9mb3Jt/YXQ9d2VicCZxdWFs/aXR5PTQw', name:'Splender', cat:'Scooty · petrol', features:['Auto','1 Seat','Smooth Ride'], price:'₹700', period:'/ day' },
-    { type:'Bike',   img:'https://imgs.search.brave.com/lqC9CW8ySbL5Yrb29bq7b9UcWVhw0_WgcgTqLD0-TjE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/eWFtYWhhLW1vdG9y/LWluZGlhLmNvbS90/aGVtZS92NC9pbWFn/ZXMvd2VicF9pbWFn/ZXMvZnpfc2VyaWVz/X2FsbC9mengtaHli/cmlkL2NvbG9yL3Rp/dGFuaXVtLndlYnA', name:'Yamaha fzx', cat:'Scooty · petrol', features:['Auto','1 Seat','Smooth Ride'], price:'₹1000', period:'/ day' },
-    { type:'Scooty', img:'img/12.jpeg', name:'Tvs ntorq', cat:'Scooty · petrol', features:['Auto','1 Seat','Smooth Ride'], price:'₹800', period:'/ day' },
-    { type:'RayZr',  img:'https://imgs.search.brave.com/BaYiWX8czuiLeyveiA5aHG6GNX2OU5OmXBfrgHuzKjs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuOTF3aGVlbHMu/Y29tL2Fzc2V0cy9i/X2ltYWdlcy9nYWxs/ZXJ5L3lhbWFoYS9y/YXl6ci0xMjUtZmkt/aHlicmlkL3lhbWFo/YS1yYXl6ci0xMjUt/ZmktaHlicmlkLTYt/MTc2NDc0NjIzMS5w/bmc_dz0xMTAwJnE9/NDA', name:'RayZr', cat:'Scooty · petrol', features:['Auto','1 Seat','Smooth Ride'], price:'₹800', period:'/ day' },
-    { type:'car',    img:'img/1.jpeg', name:'Swift Dzire', cat:'Sedan · AC', features:['5 Seats','Manual','AC'], price:'₹2,800', period:'/ day' },
-    { type:'car',    img:'img/11.jpeg', name:'Hyundai i20', cat:'Premium Hatchback', features:['5 Seats','Auto/Manual','AC'], price:'₹4,000', period:'/ day' },
-    { type:'car',    img:'https://imgs.search.brave.com/QbinR9QfbN8pl4MlYa03_YWHTgY9LVpF1KRU4chGlzo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGlt/Zy5jYXJkZWtoby5j/b20vaW1hZ2VzL2Nh/cmV4dGVyaW9yaW1h/Z2VzLzYzMHg0MjAv/TWFydXRpL0JhbGVu/by8xMDQ5OC8xNzc4/ODI1NTY2MTA2L3Jl/YXItbGVmdC12aWV3/LTEyMS5qcGc_aW13/aWR0aD00MjAmaW1w/b2xpY3k9cmVzaXpl', name:'Maruti Baleno', cat:'Premium Hatchback', features:['5 Seats','Auto','AC'], price:'₹4,000', period:'/ day' },
-    { type:'car',    img:'img/8.jpeg', name:'Tata Tiago', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'₹3,000', period:'/ day' },
-    { type:'car',    img:'https://imgs.search.brave.com/uNa3la8ki3ahdufgiFze3UmFGI6nWkQ-MqI5Xa6HW8g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hdmdt/b3RvcnMuY28uaW4v/d3AtY29udGVudC91/cGxvYWRzLzIwMjIv/MDMvUGVhcmwtQXJj/dGljLVdoaXRlLXdp/dGgtUGVhcmwtTWlk/bmlnaHQtQmxhY2st/Um9vZi5wbmc', name:'Swift (VXI)', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'₹3,500', period:'/ day' },
-    { type:'car',    img:'img/22.jpeg', name:'Maruti Fronx', cat:'Compact SUV · AC', features:['5 Seats','Auto','AC'], price:'₹4,000', period:'/ day' },
-    
-    { type:'suv',    img:'img/4.jpeg', name:'Mahindra Scorpio N', cat:'SUV · 4WD · Premium', features:['7 Seats','Manual','4WD'], price:'₹6,000', period:'/ day' },
-    { type:'car',    img:'https://imgs.search.brave.com/XpKccBBj6PCKRdcKYDvT7dFJWmAuC0Jwj1qs7FMPphg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aG9uZGFjYXJpbmRp/YS5jb20vX25leHQv/aW1hZ2U_dXJsPWh0/dHBzOi8vd3d3Lmhv/bmRhY2FyaW5kaWEu/Y29tL3dlYi1kYXRh/L3Rlc3RpbW9uaWFs/cy8yNGQxMTZiMS1k/ODFjLTQ5N2EtOTRi/ZC03ZmVjMmNjNTUx/YTEuanBlZyZ3PTM4/NDAmcT03NQ', name:'Honda City', cat:'Sedan · AC', features:['5 Seats','Auto','AC'], price:'₹1,200', period:'/ day' },
-    { type:'scooty', img:'img/7.jpeg', name:'Avenis 125', cat:'Scooter · Petrol', features:['Petrol','1 Seat'], price:'₹700', period:'/ day' },
-    { type:'scooty', img:'img/6.jpeg', name:'Avenis', cat:'Scooter · petrol', features:['Petrol','1 Seat','Urban Ride'], price:'₹600', period:'/ day' },
+  const bikes = [
+    { img:'https://imgs.search.brave.com/LJPo46OrRapRm1cmKFPgMaplWAlCtcxjIudASr1QOyY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9yb3lh/bC1lbmZpZWxkLWJp/a2UtbWFkZS1saWtl/LWd1bi1nb2VzLWJ1/bGxldC0xMjk0OTQ2/ODYuanBn', gallery:['https://imgs.search.brave.com/LJPo46OrRapRm1cmKFPgMaplWAlCtcxjIudASr1QOyY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9yb3lh/bC1lbmZpZWxkLWJp/a2UtbWFkZS1saWtl/LWd1bi1nb2VzLWJ1/bGxldC0xMjk0OTQ2/ODYuanBn','https://imgs.search.brave.com/LJPo46OrRapRm1cmKFPgMaplWAlCtcxjIudASr1QOyY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9yb3lh/bC1lbmZpZWxkLWJp/a2UtbWFkZS1saWtl/LWd1bi1nb2VzLWJ1/bGxldC0xMjk0OTQ2/ODYuanBn','https://imgs.search.brave.com/LJPo46OrRapRm1cmKFPgMaplWAlCtcxjIudASr1QOyY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9yb3lh/bC1lbmZpZWxkLWJp/a2UtbWFkZS1saWtl/LWd1bi1nb2VzLWJ1/bGxldC0xMjk0OTQ2/ODYuanBn'], name:'Bullet', cat:'Classic Bike · Petrol', features:['Manual','2 Seat','Smooth Ride'], price:'Rs.1,400', period:'/ day' },
+    { img:'https://imgs.search.brave.com/Kd1VC1KL-eJQKkrEj5W9GNlRl_2Pl9ReDPxKcizALgs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudHJhY3Rvcmp1/bmN0aW9uLmNvbS9C/TEFDS19HUkVZX1NU/UklQRV8xMjQ0ZTg0/MjMyLnBuZz9mb3Jt/YXQ9d2VicCZxdWFs/aXR5PTQw', gallery:['https://imgs.search.brave.com/Kd1VC1KL-eJQKkrEj5W9GNlRl_2Pl9ReDPxKcizALgs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudHJhY3Rvcmp1/bmN0aW9uLmNvbS9C/TEFDS19HUkVZX1NU/UklQRV8xMjQ0ZTg0/MjMyLnBuZz9mb3Jt/YXQ9d2VicCZxdWFs/aXR5PTQw','https://imgs.search.brave.com/Kd1VC1KL-eJQKkrEj5W9GNlRl_2Pl9ReDPxKcizALgs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudHJhY3Rvcmp1/bmN0aW9uLmNvbS9C/TEFDS19HUkVZX1NU/UklQRV8xMjQ0ZTg0/MjMyLnBuZz9mb3Jt/YXQ9d2VicCZxdWFs/aXR5PTQw','https://imgs.search.brave.com/Kd1VC1KL-eJQKkrEj5W9GNlRl_2Pl9ReDPxKcizALgs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudHJhY3Rvcmp1/bmN0aW9uLmNvbS9C/TEFDS19HUkVZX1NU/UklQRV8xMjQ0ZTg0/MjMyLnBuZz9mb3Jt/YXQ9d2VicCZxdWFs/aXR5PTQw'], name:'Splender', cat:'Commuter Bike · Petrol', features:['Manual','2 Seat','Smooth Ride'], price:'Rs.700', period:'/ day' },
+    { img:'https://imgs.search.brave.com/lqC9CW8ySbL5Yrb29bq7b9UcWVhw0_WgcgTqLD0-TjE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/eWFtYWhhLW1vdG9y/LWluZGlhLmNvbS90/aGVtZS92NC9pbWFn/ZXMvd2VicF9pbWFn/ZXMvZnpfc2VyaWVz/X2FsbC9mengtaHli/cmlkL2NvbG9yL3Rp/dGFuaXVtLndlYnA', gallery:['https://imgs.search.brave.com/lqC9CW8ySbL5Yrb29bq7b9UcWVhw0_WgcgTqLD0-TjE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/eWFtYWhhLW1vdG9y/LWluZGlhLmNvbS90/aGVtZS92NC9pbWFn/ZXMvd2VicF9pbWFn/ZXMvZnpfc2VyaWVz/X2FsbC9mengtaHli/cmlkL2NvbG9yL3Rp/dGFuaXVtLndlYnA','https://imgs.search.brave.com/lqC9CW8ySbL5Yrb29bq7b9UcWVhw0_WgcgTqLD0-TjE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/eWFtYWhhLW1vdG9y/LWluZGlhLmNvbS90/aGVtZS92NC9pbWFn/ZXMvd2VicF9pbWFn/ZXMvZnpfc2VyaWVz/X2FsbC9mengtaHli/cmlkL2NvbG9yL3Rp/dGFuaXVtLndlYnA','https://imgs.search.brave.com/lqC9CW8ySbL5Yrb29bq7b9UcWVhw0_WgcgTqLD0-TjE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/eWFtYWhhLW1vdG9y/LWluZGlhLmNvbS90/aGVtZS92NC9pbWFn/ZXMvd2VicF9pbWFn/ZXMvZnpfc2VyaWVz/X2FsbC9mengtaHli/cmlkL2NvbG9yL3Rp/dGFuaXVtLndlYnA'], name:'Yamaha FZ-X', cat:'Sports Bike · Petrol', features:['Manual','2 Seat','Smooth Ride'], price:'Rs.1,000', period:'/ day' },
+  ];
+
+  const scooties = [
+    { img:'https://imgs.search.brave.com/4F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvSGVy/by1EZXN0aW5pLTEy/NS1SZWFyLXRocmVl/cXVhcnRlci0xNDE1/NTYuanBnP3dtPTAm/cT04MA', gallery:['https://imgs.search.brave.com/4F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvSGVy/by1EZXN0aW5pLTEy/NS1SZWFyLXRocmVl/cXVhcnRlci0xNDE1/NTYuanBnP3dtPTAm/cT04MA','https://imgs.search.brave.com/4F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvSGVy/by1EZXN0aW5pLTEy/NS1SZWFyLXRocmVl/cXVhcnRlci0xNDE1/NTYuanBnP3dtPTAm/cT04MA','https://imgs.search.brave.com/4F0doftd50V_Ay_h8sDMdU1-i0gYDsZNVBq6tKZHiAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWdk/LmFlcGxjZG4uY29t/LzY2NHgzNzQvYncv/ZWMvMzcxNTcvSGVy/by1EZXN0aW5pLTEy/NS1SZWFyLXRocmVl/cXVhcnRlci0xNDE1/NTYuanBnP3dtPTAm/cT04MA'], name:'Destini 125', cat:'Scooty · Petrol', features:['Auto','1 Seat','City Rides'], price:'Rs.800', period:'/ day' },
+    { img:'img/12.jpeg', gallery:['img/12.jpeg','img/12.jpeg','img/12.jpeg'], name:'TVS Ntorq', cat:'Scooty · Petrol', features:['Auto','1 Seat','Smooth Ride'], price:'Rs.800', period:'/ day' },
+    { img:'https://imgs.search.brave.com/BaYiWX8czuiLeyveiA5aHG6GNX2OU5OmXBfrgHuzKjs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuOTF3aGVlbHMu/Y29tL2Fzc2V0cy9i/X2ltYWdlcy9nYWxs/ZXJ5L3lhbWFoYS9y/YXl6ci0xMjUtZmkt/aHlicmlkL3lhbWFo/YS1yYXl6ci0xMjUt/ZmktaHlicmlkLTYt/MTc2NDc0NjIzMS5w/bmc_dz0xMTAwJnE9/NDA', gallery:['https://imgs.search.brave.com/BaYiWX8czuiLeyveiA5aHG6GNX2OU5OmXBfrgHuzKjs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuOTF3aGVlbHMu/Y29tL2Fzc2V0cy9i/X2ltYWdlcy9nYWxs/ZXJ5L3lhbWFoYS9y/YXl6ci0xMjUtZmkt/aHlicmlkL3lhbWFo/YS1yYXl6ci0xMjUt/ZmktaHlicmlkLTYt/MTc2NDc0NjIzMS5w/bmc_dz0xMTAwJnE9/NDA','https://imgs.search.brave.com/BaYiWX8czuiLeyveiA5aHG6GNX2OU5OmXBfrgHuzKjs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuOTF3aGVlbHMu/Y29tL2Fzc2V0cy9i/X2ltYWdlcy9nYWxs/ZXJ5L3lhbWFoYS9y/YXl6ci0xMjUtZmkt/aHlicmlkL3lhbWFo/YS1yYXl6ci0xMjUt/ZmktaHlicmlkLTYt/MTc2NDc0NjIzMS5w/bmc_dz0xMTAwJnE9/NDA','https://imgs.search.brave.com/BaYiWX8czuiLeyveiA5aHG6GNX2OU5OmXBfrgHuzKjs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuOTF3aGVlbHMu/Y29tL2Fzc2V0cy9i/X2ltYWdlcy9nYWxs/ZXJ5L3lhbWFoYS9y/YXl6ci0xMjUtZmkt/aHlicmlkL3lhbWFo/YS1yYXl6ci0xMjUt/ZmktaHlicmlkLTYt/MTc2NDc0NjIzMS5w/bmc_dz0xMTAwJnE9/NDA'], name:'RayZr', cat:'Scooty · Petrol', features:['Auto','1 Seat','Smooth Ride'], price:'Rs.800', period:'/ day' },
+    { img:'img/7.jpeg', gallery:['img/7.jpeg','img/7.jpeg','img/7.jpeg'], name:'Avenis 125', cat:'Scooter · Petrol', features:['Petrol','1 Seat'], price:'Rs.700', period:'/ day' },
+    { img:'img/6.jpeg', gallery:['img/6.jpeg','img/6.jpeg','img/6.jpeg'], name:'Avenis', cat:'Scooter · Petrol', features:['Petrol','1 Seat','Urban Ride'], price:'Rs.600', period:'/ day' },
+  ];
+
+  const cars = [
+    { img:'img/ex1.jpeg', gallery:['img/ex1.jpeg','img/ex2.jpeg','img/ex3.jpeg'], name:'Hundai Exter', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'Rs.4,000', period:'/ day' },
+    { img:'img/dzire1.jpeg', gallery:['img/dzire1.jpeg','img/dz2.jpeg','img/dz3.jpeg'], name:'Swift Dzire', cat:'Sedan · AC', features:['5 Seats','Manual','AC'], price:'Rs.2,800', period:'/ day' },
+    { img:'img/i20 1.jpeg', gallery:['img/i20 1.jpeg','img/i2.jpeg','img/i3.jpeg'], name:'Hyundai i20', cat:'Premium Hatchback', features:['5 Seats','Auto/Manual','AC'], price:'Rs.4,000', period:'/ day' },
+    { img:'img/3x0 1.jpeg', gallery:['img/3x0 1.jpeg','img/3x2.jpeg','img/3x3.jpeg'], name:'Maruti Baleno', cat:'Premium Hatchback', features:['5 Seats','Auto','AC'], price:'Rs.4,000', period:'/ day' },
+    { img:'img/tiago1.jpeg', gallery:['img/tiago1.jpeg','img/ti2.jpeg','img/ti3.jpeg'], name:'Tata Tiago', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'Rs.3,000', period:'/ day' },
+    { img:'img/sw1.jpeg', gallery:['img/sw1.jpeg','img/sw2.jpeg','img/sw3.jpeg'], name:'Swift (VXI)', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'Rs.3,500', period:'/ day' },
+    { img:'img/fronex1.jpeg', gallery:['img/fronex1.jpeg','img/fr2.jpeg','img/fr3.jpeg'], name:'Maruti Fronx', cat:'Compact SUV · AC', features:['5 Seats','Auto','AC'], price:'Rs.4,000', period:'/ day' },
+    { img:'img/son1.jpeg', gallery:['img/son1.jpeg','img/son2.jpeg','img/son3.jpeg'], name:'Honda City', cat:'Sedan · AC', features:['5 Seats','Auto','AC'], price:'Rs.1,200', period:'/ day' },
+    { img:'img/scorpion1.jpeg', gallery:['img/scorpion1.jpeg','img/th1.jpeg','img/th2.jpeg'], name:'Mahindra Scorpio N', cat:'SUV · 4WD · Premium', features:['7 Seats','Manual','4WD'], price:'Rs.6,000', period:'/ day' },
   ];
 
   const cameras = [
-    { img:'img/15.jpeg', name:'Nikon D7500', cat:'DSLR · 20.9 MP', features:['20.9 MP','4K Video','WiFi'], price:'₹800', period:'/ day' },
-    { img:'img/17.jpeg', name:'Canon 1500 D', cat:'Mirrorless · 24 MP', features:['4K Video','Fast AF','WiFi'], price:'₹500', period:'/ day' },
+    { img:'img/SONY M3   1500.jpeg', name:'SONY M3', cat:'DSLR · 20.9 MP', features:['4K Video','Fast AF','WiFi'], price:'Rs.1500', period:'/ day' },
+    { img:'img/SONY M4 2000.jpeg',  name:'SONY M4', cat:'Mirrorless · 24 MP', features:['4K Video','Fast AF','WiFi'], price:'Rs.2000', period:'/ day' },
+    { img:'img/SONY 6100.jpeg',  name:'SONY 6100', cat:'Mirrorless · 24 MP', features:['4K Video','Fast AF','WiFi'], price:'Rs.800', period:'/ day' },
+    { img:'img/NIKON 7500.jpeg',  name:'NIKON 7500', cat:'Mirrorless · 24 MP', features:['4K Video','Fast AF','WiFi'], price:'Rs.800', period:'/ day' },
   ];
 
-  const whatsappNumber = '917505860661';
+  const whatsappNumber = '917505323308';
 
   function buildWhatsAppLink(message) {
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   }
 
-  function renderFleet(filter) {
-    const grid = document.getElementById('fleetGrid');
-    const data = filter === 'all' ? vehicles : vehicles.filter(v => v.type === filter);
-    grid.innerHTML = data.map(v => `
+  function renderCards(data, gridId, type) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.innerHTML = data.map((v, idx) => `
       <div class="vehicle-card reveal visible">
         <div class="vcard-img-wrap">
-          <img src="${v.img}" alt="${v.name}" class="vcard-img" loading="lazy" />
+          <img src="${v.img}" alt="${v.name}" class="vcard-img${type === 'car' ? ' car-gallery-image' : ''}" loading="lazy" data-gallery='${encodeURIComponent(JSON.stringify(type === 'car' ? (v.gallery && v.gallery.length ? v.gallery : [v.img]) : [v.img]))}' onclick="openLightbox('${type}', ${idx}, this.src)" />
         </div>
         <div class="vcard-body">
           <div class="vcard-name">${v.name}</div>
@@ -1208,19 +1548,50 @@
           <div class="vcard-features">${v.features.map(f => `<span class="vcard-feature">${f}</span>`).join('')}</div>
           <div class="vcard-footer">
             <div class="vcard-price">${v.price} <sub>${v.period}</sub></div>
-            <a class="vcard-btn" href="${buildWhatsAppLink(`Hello Mahadev Riders, I want to book ${v.name} for my trip.`)}" target="_blank" rel="noopener">Book</a>
+            <a class="vcard-btn" href="${buildWhatsAppLink('Hello Mahadev Riders, I want to book ' + v.name + ' for my trip.')}" rel="noopener">Book</a>
           </div>
         </div>
       </div>
     `).join('');
+
+    if (type === 'car') {
+      initCarCardCarousels(gridId);
+    }
+  }
+
+  function initCarCardCarousels(gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+
+    grid.querySelectorAll('.car-gallery-image').forEach((img) => {
+      if (img.dataset.carouselReady === 'true') return;
+      img.dataset.carouselReady = 'true';
+
+      let gallery = [];
+      try {
+        gallery = JSON.parse(decodeURIComponent(img.dataset.gallery || '[]'));
+      } catch (error) {
+        gallery = [img.src];
+      }
+
+      if (!Array.isArray(gallery) || gallery.length < 2) return;
+
+      let currentIndex = 0;
+      window.setInterval(() => {
+        if (!img.isConnected) return;
+        currentIndex = (currentIndex + 1) % gallery.length;
+        img.src = gallery[currentIndex];
+      }, 2200);
+    });
   }
 
   function renderCameras() {
     const grid = document.getElementById('cameraGrid');
-    grid.innerHTML = cameras.map(c => `
+    if (!grid) return;
+    grid.innerHTML = cameras.map((c, idx) => `
       <div class="camera-card reveal visible">
         <div class="camera-img-wrap">
-          <img src="${c.img}" alt="${c.name}" class="camera-img" loading="lazy" />
+          <img src="${c.img}" alt="${c.name}" class="camera-img" loading="lazy" onclick="openLightbox('camera', ${idx})" />
         </div>
         <div class="camera-body">
           <div class="camera-name">${c.name}</div>
@@ -1228,21 +1599,139 @@
           <div class="camera-features">${c.features.map(f => `<span class="camera-feature">${f}</span>`).join('')}</div>
           <div class="camera-footer">
             <div class="camera-price">${c.price} <sub>${c.period}</sub></div>
-            <a class="vcard-btn" href="${buildWhatsAppLink(`Hello Mahadev Riders, I want to book ${c.name} camera for my trip.`)}" target="_blank" rel="noopener">Book</a>
+            <a class="vcard-btn" href="${buildWhatsAppLink('Hello Mahadev Riders, I want to book ' + c.name + ' camera for my trip.')}" rel="noopener">Book</a>
           </div>
         </div>
       </div>
     `).join('');
   }
 
-  function filterFleet(type, btn) {
-    document.querySelectorAll('.fleet-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    renderFleet(type);
+  // ── Lightbox Gallery ──
+  function openLightbox(type, idx, startSrc) {
+    let item;
+    if (type === 'car') item = cars[idx];
+    else if (type === 'bike') item = bikes[idx];
+    else if (type === 'scooty') item = scooties[idx];
+    else if (type === 'camera') item = cameras[idx];
+    else return;
+
+    if (!item) return;
+
+    let gallery = type === 'car'
+      ? (item.gallery && item.gallery.length ? item.gallery : [item.img])
+      : [item.img];
+
+    if (type === 'car' && startSrc) {
+      const startIndex = gallery.indexOf(startSrc);
+      if (startIndex > 0) {
+        gallery = [...gallery.slice(startIndex), ...gallery.slice(0, startIndex)];
+      }
+    }
+
+    document.getElementById('lightboxTitle').textContent = item.name + ' Gallery';
+    document.getElementById('lightboxMainImg').src = gallery[0];
+    document.getElementById('lightboxMainImg').alt = item.name;
+
+    const galleryHtml = gallery.map((gImg, i) => `
+      <img src="${gImg}" alt="${item.name} ${i+1}" onclick="changeMainImage('${gImg}')" />
+    `).join('');
+    document.getElementById('lightboxGallery').innerHTML = galleryHtml;
+
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
 
-  renderFleet('all');
+  function changeMainImage(src) {
+    document.getElementById('lightboxMainImg').src = src;
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // ── Why Us Swiper ──
+  let swiperIndex = 0;
+  let swiperInterval;
+  const swiperImages = document.querySelectorAll('#whySwiperTrack img');
+  const swiperDotsContainer = document.getElementById('whySwiperDots');
+
+  // Testimonials that correspond (cyclically) to the swiper images
+  const testimonials = [
+    { stars: 5, quote: 'Rented a Scorpio N for our Corbett trip. The SUV was spotless, the team was super helpful, and drop-off was effortless. Will definitely book again!', name: 'Rajat Kumar', loc: 'Delhi · Corbett trip, 2025', avatar: 'img/owner.jpeg' },
+    { stars: 5, quote: 'Excellent service and very cooperative staff. Car was clean and well-maintained — highly recommend!', name: 'Seema Patel', loc: 'Haldwani · Family trip, 2024', avatar: 'img/son1.jpeg' },
+    { stars: 4, quote: 'Good cars and easy booking via WhatsApp. Saved us a lot of time.', name: 'Amit Sharma', loc: 'Nearby · Weekend trip, 2024', avatar: 'img/sw1.jpeg' },
+    { stars: 5, quote: 'Perfect for hill drives. Vehicle performance was great on the ghat roads.', name: 'Neha Verma', loc: 'Nainital · Solo trip, 2023', avatar: 'img/fr2.jpeg' },
+    { stars: 5, quote: 'Very helpful owner and quick support. Will use again for next trip.', name: 'Rohit Singh', loc: 'Haldwani · Corbett 2022', avatar: 'img/scorpion1.jpeg' }
+  ];
+
+  function updateTestimonial(index) {
+    const i = index % testimonials.length;
+    const t = testimonials[i];
+    const starsEl = document.getElementById('whyTestStars');
+    const quoteEl = document.getElementById('whyTestQuote');
+    const avatarEl = document.getElementById('whyTestAvatar');
+    const nameEl = document.getElementById('whyTestName');
+    const locEl = document.getElementById('whyTestLoc');
+    if (starsEl) starsEl.innerHTML = '★'.repeat(t.stars);
+    if (quoteEl) quoteEl.textContent = t.quote;
+    if (nameEl) nameEl.textContent = t.name;
+    if (locEl) locEl.textContent = t.loc;
+    if (avatarEl) {
+      avatarEl.innerHTML = `<img src="${t.avatar}" alt="${t.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
+    }
+  }
+
+  function initSwiper() {
+    if (!swiperImages.length) return;
+    // Create dots
+    swiperImages.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'why-swiper-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      swiperDotsContainer.appendChild(dot);
+    });
+    // Auto slide every 1 second
+    swiperInterval = setInterval(() => {
+      swiperIndex = (swiperIndex + 1) % swiperImages.length;
+      updateSwiper();
+    }, 1000);
+    // initial testimonial
+    updateTestimonial(0);
+  }
+
+  function goToSlide(index) {
+    swiperIndex = index;
+    updateSwiper();
+  }
+
+  function updateSwiper() {
+    const track = document.getElementById('whySwiperTrack');
+    track.style.transform = `translateX(-${swiperIndex * 100}%)`;
+    const dots = document.querySelectorAll('.why-swiper-dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === swiperIndex);
+    });
+    updateTestimonial(swiperIndex);
+  }
+
+  // ── City Popup ──
+  function closeCityPopup() {
+    document.getElementById('cityPopup').classList.add('hidden');
+  }
+  function selectCity(city) {
+    closeCityPopup();
+    // Store selected city if needed
+    localStorage.setItem('selectedCity', city);
+  }
+
+  // ── Render All Sections ──
+  renderCards(cars, 'carsGrid', 'car');
+  renderCards(bikes, 'bikesGrid', 'bike');
+  renderCards(scooties, 'scootiesGrid', 'scooty');
   renderCameras();
+  initSwiper();
 
   // ── Navbar scroll ──
   const navbar = document.getElementById('navbar');
@@ -1272,6 +1761,19 @@
   // ── Set min date ──
   const today = new Date().toISOString().split('T')[0];
   document.querySelectorAll('input[type="date"]').forEach(d => d.setAttribute('min', today));
+
+  // ── Keyboard close lightbox ──
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeLightbox();
+      closeCityPopup();
+    }
+  });
+
+  // ── Close popup on backdrop click ──
+  document.getElementById('cityPopup').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeCityPopup();
+  });
 </script>
 </body>
 </html>
