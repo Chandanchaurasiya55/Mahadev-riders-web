@@ -939,6 +939,7 @@
   </style>
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 <!-- ── City Selection Popup ── -->
@@ -1689,7 +1690,7 @@
             <div class="contact-icon">&#9993;</div>
             <div class="contact-text">
               <h4>Email</h4>
-              <a href="mailto:mahadevriders@.com">mahadevriders@.com</a>
+              <a href="mailto:mahadevriders@gmail.com">mahadevriders@gmail.com</a>
             </div>
           </div>
         </div>
@@ -1720,6 +1721,48 @@
             </div>
           </div>
           <div class="form-group">
+            <label>Select Vehicle *</label>
+            <select required>
+              <option value="" disabled selected>Choose a vehicle...</option>
+              <optgroup label="🚗 Cars & SUVs">
+                <option value="Bolero">Bolero</option>
+                <option value="Thar">Thar</option>
+                <option value="Sonet">Sonet</option>
+                <option value="Venue">Venue</option>
+                <option value="Swift VX">Swift VX</option>
+                <option value="i20">i20</option>
+                <option value="Exter">Exter</option>
+                <option value="Tiago">Tiago</option>
+                <option value="Swift Dzire">Swift Dzire</option>
+                <option value="Fronx">Fronx</option>
+                <option value="3XO">3XO</option>
+                <option value="Scorpio N">Scorpio N</option>
+              </optgroup>
+              <optgroup label="🏍️ Bikes">
+                <option value="Classic">Classic</option>
+                <option value="FZS">FZS</option>
+                <option value="Himalayan">Himalayan</option>
+                <option value="Jawa Bobber 42">Jawa Bobber 42</option>
+                <option value="Xpulse">Xpulse</option>
+                <option value="Splendor">Splendor</option>
+              </optgroup>
+              <optgroup label="🛵 Scooties">
+                <option value="Destini">Destini</option>
+                <option value="Ntorq">Ntorq</option>
+                <option value="Ray ZR">Ray ZR</option>
+                <option value="Avenis">Avenis</option>
+                <option value="Activa">Activa</option>
+                <option value="Access">Access</option>
+              </optgroup>
+              <optgroup label="📷 Cameras">
+                <option value="SONY M3">SONY M3</option>
+                <option value="SONY M4">SONY M4</option>
+                <option value="SONY 6100">SONY 6100</option>
+                <option value="NIKON 7500">NIKON 7500</option>
+              </optgroup>
+            </select>
+          </div>
+           <div class="form-group">
             <label>Destination / Notes</label>
             <textarea placeholder="e.g. Nainital trip, 3 passengers, need driver"></textarea>
           </div>
@@ -1850,12 +1893,12 @@
 
   // ── CARS (Gallery on Click, No Auto-Swap) ──
   const cars = [
-    { img:'img/bb3.jpeg', gallery:['img/bb1.jpeg','img/bb3.jpeg', 'img/bb4.jpeg'], name:'Bolero', cat:'car · AC · 7 Seater', features:['7 Seats','Manual','AC'], price:'Rs.3,500', period:'/ day' },
+    { img:'img/bb3.jpeg', gallery:['img/bb1.jpeg','img/bb3.jpeg', 'img/bb4.jpeg'], name:'Bolero', cat:'car · AC · 7 Seater', features:['7 Seats','Manual','AC'], price:'Rs.5,000', period:'/ day' },
     { img:'img/th1.jpeg', gallery:['img/th1.jpeg','img/th2.jpeg','img/th3.jpeg'], name:'Thar', cat:'SUV · 4WD · Premium', features:['4 Seats','Manual','4WD'], price:'Rs.5,500', period:'/ day' },
     { img:'img/son1.jpeg', gallery:['img/son1.jpeg','img/son2.jpeg','img/son3.jpeg'], name:'Sonet', cat:'Compact SUV · AC', features:['5 Seats','Auto','AC'], price:'Rs.4,000', period:'/ day' },
     { img:'img/ven1.jpeg', gallery:['img/ven1.jpeg','img/ven2.jpeg','img/ven3.jpeg'], name:'Venue', cat:'Compact SUV · AC', features:['5 Seats','Auto','AC'], price:'Rs.4,000', period:'/ day' },
     { img:'img/sw1.jpeg', gallery:['img/sw1.jpeg','img/sw2.jpeg','img/sw3.jpeg'], name:'Swift VX', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'Rs.3,500', period:'/ day' },
-    { img:'img/i20 1.jpeg', gallery:['img/i20 1.jpeg','img/i2.jpeg','img/i3.jpeg'], name:'i20', cat:'Premium Hatchback', features:['5 Seats','Auto/Manual','AC'], price:'Rs.4,00₀', period:'/ day' },
+    { img:'img/i20 1.jpeg', gallery:['img/i20 1.jpeg','img/i2.jpeg','img/i3.jpeg'], name:'i20', cat:'Premium Hatchback', features:['5 Seats','Auto/Manual','AC'], price:'Rs.4,000', period:'/ day' },
     { img:'img/ex1.jpeg', gallery:['img/ex1.jpeg','img/ex2.jpeg','img/ex3.jpeg'], name:'Exter', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'Rs.4,₀₀₀ ', period:'/ day' },
     { img:'img/tiago1.jpeg', gallery:['img/tiago1.jpeg','img/ti2.jpeg','img/ti3.jpeg'], name:'Tiago', cat:'Hatchback · AC', features:['5 Seats','Manual','AC'], price:'Rs.3,000', period:'/ day' },
     { img:'img/dzire1.jpeg', gallery:['img/dzire1.jpeg','img/dz2.jpeg','img/dz3.jpeg'], name:'Swift Dzire', cat:'Sedan · AC', features:['5 Seats','Manual','AC'], price:'Rs.2,800', period:'/ day' },
